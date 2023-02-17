@@ -48,7 +48,7 @@ router.put('/:id', (req, res, next) => {
     console.log('Updating contact with ID:', contactId);
     console.log('New contact data:', req.body);
 
-    Contact.findByIdAndUpdate(contactId, { fullname: req.body.contactName, phone: req.body.contactPhone }, { new: true }, (err, updatedContact) => {
+    Contact.findByIdAndUpdate(contactId, { fullName: req.body.contactName, phone: req.body.contactPhone }, { new: true }, (err, updatedContact) => {
         if (err) {
             console.log('Error updating contact:', err);
             res.status(500).json({ error: 'Could not update contact.' });
