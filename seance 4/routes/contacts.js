@@ -42,6 +42,23 @@ router.get("/delete/:id", function (req, res, next) {
   });
 });
 
+// PUT (update) a contact
+router.put('/:id', (req, res, next) => {
+    const contactId = req.params.id;
+    console.log('Updating contact with ID:', contactId);
+    console.log('New contact data:', req.body);
+
+    Contact.findByIdAndUpdate(contactId, { fullname: req.body.contactName, phone: req.body.contactPhone }, { new: true }, (err, updatedContact) => {
+        if (err) {
+            console.log('Error updating contact:', err);
+            res.status(500).json({ error: 'Could not update contact.' });
+        } else {
+            console.log('Updated contact:', updatedContact);
+            res.json(updatedContact);
+        }
+    });
+});
+
 
 
 
