@@ -45,6 +45,8 @@ p=products
   route.get('/:id', function(req, res, next) {
     res.json(products[req.params.id]);
   }); 
+
+  
   route.get('/get/:id/:qt', function(req, res, next) {
     i=req.params.id.toString()
         totalprice=req.params.qt * productsMap.get(i).price
