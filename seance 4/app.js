@@ -9,7 +9,7 @@ const contactRouter = require('./routes/contacts.js');
 const logger = require("morgan");
 
 app.subscribe(logger('dev'));
-app.use(express.json());
+app.use(express.json());    
 app.use(express.urlencoded({extended:false}));
 app.use('/contact',contactRouter);
 app.use((req,res,next)=>{
