@@ -20,7 +20,7 @@ router.post("/", (req, res, next) => {
   var contact = new Contact({
     fullName: req.body.contactName,
     phone: req.body.contactNumber,
-  });
+  })  ;
   contact.save((err, newContact) => {
     if (err) {
       console.log("there is an error", err);
