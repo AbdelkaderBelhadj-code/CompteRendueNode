@@ -37,7 +37,10 @@
       #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
       #input:focus { outline: none; }
       #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
-
+      #typing-notification {
+      color: #999;
+      font-style: italic;
+      }
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages > li { padding: 0.5rem 1rem; }
       #messages > li:nth-child(odd) { background: #efefef; }
@@ -64,21 +67,29 @@
                 e.preventDefault();
                 if (input.value) {
                 socket.emit('chat message', input.value);
+                socket.emit("typing", { message: "User is typing..." });
+
                 input.value = '';
                 }
             });
 
-            // Écouter l'événement "onkeyup" de la zone de texte
-            input.addEventListener("keyup", function() {
-            // Récupérer le texte saisi par l'utilisateur
-            let message = input.value;
-            
-            // Vérifier si le message est vide ou non
-            if (message.trim() !== "") {
-                // Émettre l'événement "typing" avec socket.io
-                socket.emit("typing", { message: "L'utilisateur est en train de taper un message." });
-            }
-            });
+          socket.on('keyup',function(e){
+            let message = input.value.trim();
+          if (message !== "") {
+              socket.emit("typing", { message: "User is typing..." });
+              document.getElementById("typing-notification").innerHTML = "User is typing...";
+       }
+          })
+          
+
+          form.addEventListener('keyup', function(e) {
+          e.preventDefault();
+          let message = input.value.trim();
+          if (message !== "") {
+              socket.emit("typing", { message: "User is typing..." });
+              document.getElementById("typing-notification").innerHTML = "User is typing...";
+       }
+       });
 
         
             socket.on('chat message', function(msg) {
@@ -88,4 +99,5 @@
                 window.scrollTo(0, document.body.scrollHeight);
             });
     </script>
-  <body>
+    <div id="typing-notification"></div>
+  </body>
