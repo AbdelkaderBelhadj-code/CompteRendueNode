@@ -13,12 +13,28 @@ const io = require("socket.io")(server)
 
 app.use("/chat",chatRouter);
 io.on('connection', (socket)=> {
+    socket.on('chat message', msg => {
+        io.emit('chat message', msg);
+      });
     console.log ('User Connected');
     io.emit("msg","A new user has been connected !");
     socket.on("disconnect",()=>{
         io.emit("msg","A user disconnected");
     })
-    });
+    // socket.on("typing", data => {
+       
+    //     socket.emit("typing", data);
+    //   });
+});
+
+// io.on("connection", socket => {
+//     // Écouter l'événement "typing" émis par le client
+//     socket.on("typing", data => {
+//       // Diffuser l'événement "typing" aux autres clients connectés
+//       socket.broadcast.emit("typing", data);
+//     });
+//   });
+
 
 
 server.listen(3000,()=>console.log("server is run"));
