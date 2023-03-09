@@ -52,8 +52,8 @@ const deleteStudentName = ((req,res,next)=>{
   const name = req.params.name;
   Student.findOneAndRemove({Name:name},(err,student)=>{
     if(err) console.log("there's an error :"+err); else{res.json(student.Name+" deleted successfully !!")}
-  })
-})
+  });
+});
 //methode 1
 // const updateStudent = (req, res, next) => {
 //   const studentId = req.params.id;
@@ -110,23 +110,21 @@ const displayAge = (req, res, next) => {
   });
 };
 
-const displayStudent = (req, res, next) => {
-  Student.updateMany(
-    { Age: { $gt: 18 } } && { Name: {$regex: "/^A/"} },{$inc:{Note:2}},
-    (err, students) => {
-      if (err) console.log("error:" + err);
-      else {
-        res.json(students);
-      }
+    const updateStudentNoteWithNameA = (req,res,next)=>{
+    Student.updateMany({Age:{$gt:18},Name:{$regex:/^A/}},{$inc:{Note:2}},(err,students)=>{
+    if(err) console.log(err);
+    else{
+        res.json('updated Succesfully :');
     }
-  );
-};
+    });
+    };
 
-const studentsNoteSorted = (req,res,next)=>{
-  Student.find({Note:{$gt:10}}).sort({Name:'-1'}).then(
-      f => res.status(201).send(f)
-  ).catch((err)=>res.status(404).send(err));
-}
+ const studentsNoteSorted = (req,res,next)=>{
+   Student.find({Note:{$gt:10}}).sort({Name:'-1'}).then(
+       f => res.status(201).send(f)
+   ).catch((err)=>res.status(404).send(err));
+ };
+
 
 
 module.exports = {
@@ -137,7 +135,7 @@ module.exports = {
   searchStudent,
   searchStudentByName,
   displayAge,
-  displayStudent,
+  updateStudentNoteWithNameA,
   deleteStudentName,
   studentsNoteSorted
 };

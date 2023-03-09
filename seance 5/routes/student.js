@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-var Student = require("../models/student.js");
-const { getStudent, saveStudent , deleteStudent , updateStudent ,studentsNoteSorted, searchStudent,deleteStudentName ,searchStudentByName,displayAge,displayStudent} = require("../services/student.js");
+const { getStudent, saveStudent , deleteStudent , updateStudent ,studentsNoteSorted,updateStudentNoteWithNameA,searchStudent,deleteStudentName ,searchStudentByName,displayAge,displayStudent} = require("../services/student.js");
 
 router.get('/',getStudent);
 router.post('/',saveStudent);
@@ -11,9 +10,10 @@ router.put('/update',updateStudent);
 // router.get('/find/:id',searchStudent);
 router.get('/find/:name',searchStudentByName);
 router.get('/getage',displayAge);
-router.put('/filterStudent',displayStudent);
+//router.put('/filterStudent',displayStudent);
 router.delete('/delete/:name',deleteStudentName);
-router.get('/studentsNoteSorted',studentsNoteSorted)
+router.get('/studentsNoteSorted',studentsNoteSorted);
+router.put('/updateStudentNoteWithNameA',updateStudentNoteWithNameA);
 
 
 
@@ -22,4 +22,4 @@ router.get('/studentsNoteSorted',studentsNoteSorted)
 
 
 
-module.exports = router
+module.exports = router 

@@ -16,7 +16,7 @@ app.use((req,res,next)=>{
     next(createError(404));
 });
 
-mongoose.connect(dbConfig.mongo.uri);
+mongoose.connect(dbConfig.mongo.uri , {useNewUrlParser : true , useUnifiedTopology:true},()=>console.log("connected to DataBase 🚀"));
 
 
 module.exports = app 
