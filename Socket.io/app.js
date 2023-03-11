@@ -13,11 +13,11 @@
 
     app.use("/chat",chatRouter);
     io.on('connection', (socket)=> {
-        socket.on('chat message', msg => {
-            io.emit('chat message', msg);
+        socket.on('chat message', msgObj => {
+            io.emit('chat message', msgObj);
         });
         console.log ('User Connected');
-        io.emit("msg","A new user has been connected !");
+        socket.emit("msg","A new user has been connected !");
         socket.on("disconnect",()=>{
             io.emit("msg","A user disconnected");
         })

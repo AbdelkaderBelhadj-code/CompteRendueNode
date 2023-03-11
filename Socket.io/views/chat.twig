@@ -53,6 +53,7 @@
     </form>
     <script>
             const socket = io.connect("ws://localhost:3000");
+            const username = prompt("enter username ...");
             var messages = document.getElementById('messages');
             var form = document.getElementById('form');
             var input = document.getElementById('input');
@@ -62,11 +63,11 @@
                 p.innerText = data
                 document.body.append(p);
             })
-
+            
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 if (input.value) {
-                socket.emit('chat message', input.value);
+                socket.emit('chat message', {username: username , message: input.value});
                 socket.emit("typing", { message: "User is typing..." });
 
                 input.value = '';
@@ -92,10 +93,10 @@
        });
 
         
-            socket.on('chat message', function(msg) {
-                var item = document.createElement('li');
-                item.textContent = msg;
-                messages.appendChild(item);
+            socket.on('chat message', function(msgObj) {
+                var messageItem = document.createElement('li');
+                messageItem.textContent = msgObj.username + " : " + msgObj.message;
+                messages.appendChild(messageItem);
                 window.scrollTo(0, document.body.scrollHeight);
             });
     </script>
