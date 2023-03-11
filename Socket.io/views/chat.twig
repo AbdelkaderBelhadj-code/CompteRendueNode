@@ -68,7 +68,6 @@
                 e.preventDefault();
                 if (input.value) {
                 socket.emit('chat message', {username: username , message: input.value});
-                socket.emit("typing", { message: "User is typing..." });
 
                 input.value = '';
                 }
@@ -76,19 +75,24 @@
 
           socket.on('keyup',function(e){
             let message = input.value.trim();
+            
           if (message !== "") {
-              socket.emit("typing", { message: "User is typing..." });
-              document.getElementById("typing-notification").innerHTML = "User is typing...";
+              socket.emit("typing", { message: `${username} is typing...` });
+              
        }
           })
-          
+
+          socket.on("typing", function(data) {
+              document.getElementById("typing-notification").innerHTML = data.message;
+
+          })          
 
           form.addEventListener('keyup', function(e) {
           e.preventDefault();
           let message = input.value.trim();
           if (message !== "") {
-              socket.emit("typing", { message: "User is typing..." });
-              document.getElementById("typing-notification").innerHTML = "User is typing...";
+              socket.emit("typing", { message: `${username} is typing...` });
+              document.getElementById("typing-notification").innerHTML = `${username} is typing...`;
        }
        });
 

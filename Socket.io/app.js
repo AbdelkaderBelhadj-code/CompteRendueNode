@@ -26,10 +26,10 @@
         });
 
     
-    // socket.on("typing", data => {
+     socket.on("typing", data => {
        
-    //     socket.emit("typing", data);
-    //   });
+         io.emit("typing", data);
+       });
 });
 
 // io.on("connection", socket => {
