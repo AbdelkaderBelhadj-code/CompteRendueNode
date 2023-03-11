@@ -1,7 +1,9 @@
     const express = require("express");
     const http = require("http");
     var path = require("path");
-    const chatRouter = require("./routes/chat")
+    const chatRouter = require("./routes/chat");
+    const mongoose = require("mongoose");
+    const dbconfig = require("./config/db.json");
 
     var app = express();
     app.set("views",path.join(__dirname,"views"));
@@ -9,7 +11,7 @@
 
     const server = http.createServer(app);
 
-    const io = require("socket.io")(server)
+    /*const io = require("socket.io")(server)
 
     app.use("/chat",chatRouter);
     io.on('connection', (socket)=> {
@@ -30,7 +32,7 @@
        
          io.emit("typing", data);
        });
-});
+}); */
 
 // io.on("connection", socket => {
 //     // Écouter l'événement "typing" émis par le client
@@ -39,7 +41,8 @@
 //       socket.broadcast.emit("typing", data);
 //     });
 //   });
-
-
+app.use(express.json());    
+app.use('/message',chatRouter);
+mongoose.connect(dbconfig.mongo.uri , {useNewUrlParser : true , useUnifiedTopology:true},()=>console.log("connected to DataBase 🚀"));
 
 server.listen(3000,()=>console.log("server is run"));
