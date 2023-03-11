@@ -9,9 +9,12 @@
     app.set("views",path.join(__dirname,"views"));
     app.set("view engine","twig");
 
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: false }));
+
     const server = http.createServer(app);
 
-    /*const io = require("socket.io")(server)
+    const io = require("socket.io")(server)
 
     app.use("/chat",chatRouter);
     io.on('connection', (socket)=> {
@@ -27,21 +30,20 @@
             io.emit('keyup',msg);
         });
 
-    
-     socket.on("typing", data => {
-       
-         io.emit("typing", data);
-       });
-}); */
+        
+        socket.on("typing", data => {
+            io.emit("typing", data);
+            
+        });
+});
 
-// io.on("connection", socket => {
-//     // Écouter l'événement "typing" émis par le client
-//     socket.on("typing", data => {
-//       // Diffuser l'événement "typing" aux autres clients connectés
-//       socket.broadcast.emit("typing", data);
-//     });
-//   });
-app.use(express.json());    
+io.on("connection", socket => {
+    // Écouter l'événement "typing" émis par le client
+    socket.on("typing", data => {
+      // Diffuser l'événement "typing" aux autres clients connectés
+      socket.broadcast.emit("typing", data);
+    });
+  });
 app.use('/message',chatRouter);
 mongoose.connect(dbconfig.mongo.uri , {useNewUrlParser : true , useUnifiedTopology:true},()=>console.log("connected to DataBase 🚀"));
 

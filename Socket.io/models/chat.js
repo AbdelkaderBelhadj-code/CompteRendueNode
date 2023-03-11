@@ -9,7 +9,7 @@ var Chat = new Schema ({
     },
     message:{
         type:String,
-        require:true
+        
     },
     sendDate:{
         type:Date
