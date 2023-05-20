@@ -17,7 +17,7 @@ const saveMessage = (req, res, next) => {
     }).save((err, newMessage) => {
       if (err) console.log("un message d'erreur " + err);
       else {
-        res.json("message: " + newMessage + "added successfully !!");
+        res.render("chat");
       }
     });
   };
